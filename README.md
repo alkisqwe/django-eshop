@@ -51,6 +51,10 @@ python3 manage.py runserver
 6) Comments System
 
 # Examples
+<p float="left">
+  <img src="https://github.com/alkisqwe/django-eshop/assets/73914940/969102e0-5082-476b-b5a4-3d6d69603505" width="100" />
+  <img src="https://github.com/alkisqwe/django-eshop/assets/73914940/fd6cf6a9-35ea-440f-a98b-5196d576a2f7" width="100" />
+</p>
 
 # Todo List
 
