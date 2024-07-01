@@ -16,6 +16,8 @@ python3 manage.py collectstatic
 ```
 python3 manage.py runserver
 ```
+# Quick demo
+gif
 # Features
 1) Implemented Api
     <ul>
