@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="460" height="300" src="https://github.com/alkisqwe/django-eshop/assets/73914940/062372c5-f24c-49e2-a122-e9a848f3122b">
+  <img src="https://github.com/alkisqwe/django-eshop/assets/73914940/062372c5-f24c-49e2-a122-e9a848f3122b">
 </p>
 
 This open source project is a E-Commerce web app build in django framework and django rest framework
