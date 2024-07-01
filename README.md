@@ -18,10 +18,12 @@ python3 manage.py runserver
 ```
 # Features
 1) Implemented Api
-    1. Api Schemas And Dynamic Documentation
-    1. Use Of Viewsets And Routers On Api
-    1. Api Custom User Authentication
-    1. Api Global And View Based Permissions
+    <ul>
+      <li>Api Schemas And Dynamic Documentation</li>
+      <li>Use Of Viewsets And Routers On Api</li>
+      <li>Api Custom User Authentication</li>
+      <li>Api Global And View Based Permissions</li>
+    </ul>
 2) Custom User Model
     1. Custom Authentication Backend
     2. Authentication System
