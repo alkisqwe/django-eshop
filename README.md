@@ -17,7 +17,8 @@ python3 manage.py collectstatic
 python3 manage.py runserver
 ```
 # Quick demo
-gif
+![Sequence1-ezgif com-video-to-gif-converter](https://github.com/alkisqwe/django-eshop/assets/73914940/c735b38b-c9e7-4f41-9bc8-e21805d70e1b)
+
 # Features
 1) Implemented Api
     <ul>
