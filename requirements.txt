@@ -1,0 +1,30 @@
+asgiref==3.8.1
+attrs==23.2.0
+certifi==2024.6.2
+charset-normalizer==3.3.2
+crispy-bootstrap5==2024.2
+dj-rest-auth==6.0.0
+Django==5.0.6
+django-allauth @ git+https://github.com/pennersr/django-allauth@f6577fa0ff0060f1debb4dfe1103d8484aaea69c
+django-cors-headers==4.4.0
+django-crispy-forms==2.2
+django-mathfilters==1.0.0
+django-rest-auth @ git+https://github.com/Tivix/django-rest-auth@c009bb997509fed2d7a544d54b25322efbee57d9
+django-shopping-cart==0.1
+django-starfield @ git+https://github.com/alkisqwe/django-starfield@b6064767da166e7ba56312326aca12fc9381396b
+djangorestframework @ git+https://github.com/encode/django-rest-framework@c7a7eae551528b6887614df816c8a26df70272d6
+drf-spectacular==0.27.2
+idna==3.7
+inflection==0.5.1
+jsonschema==4.22.0
+jsonschema-specifications==2023.12.1
+pillow==10.3.0
+PyYAML==6.0.1
+referencing==0.35.1
+requests==2.32.3
+rpds-py==0.18.1
+six==1.16.0
+sqlparse==0.5.0
+uritemplate==4.1.1
+urllib3==2.2.2
+whitenoise==6.7.0
