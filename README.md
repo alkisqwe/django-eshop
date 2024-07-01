@@ -25,8 +25,10 @@ python3 manage.py runserver
       <li>Api Global And View Based Permissions</li>
     </ul>
 2) Custom User Model
-    1. Custom Authentication Backend
-    2. Authentication System
+    <ul>
+      <li>Custom Authentication Backend</li>
+      <li>Authentication System</li>
+    </ul>
 3) Utilization Of Class Based Views
     1. Dynamic Image Upload
     2. Use Of Forms
