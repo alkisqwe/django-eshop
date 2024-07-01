@@ -30,15 +30,21 @@ python3 manage.py runserver
       <li>Authentication System</li>
     </ul>
 3) Utilization Of Class Based Views
-    1. Dynamic Image Upload
-    2. Use Of Forms
-    3. Paginator & Search & Sort
+    <ul>
+      <li>Dynamic Image Upload</li>
+      <li>Use Of Forms</li>
+      <li>Paginator & Search & Sort</li>
+    </ul>
 4) Use Of Bootstrap & Crispy
-    1. Custom Template Tags
-    2. Custom Widget
-    3. Configured Static
+    <ul>
+      <li>Custom Template Tags</li>
+      <li>Custom Widget</li>
+      <li>Configured Static</li>
+    </ul>
 5) Cart And Checkout
-    1. Save Credit Card And Address Information
+    <ul>
+      <li>Save Credit Card And Address Information</li>
+    </ul>
 6) Comments System
 
 # Examples
