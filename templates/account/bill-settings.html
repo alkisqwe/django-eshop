@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+
+{% block title %}Billing Settings{% endblock title %}
+
+{% block content %}
+
+<style>
+
+.card {
+    box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
+}
+.card-header {
+    padding: 1rem 1.35rem;
+    margin-bottom: 0;
+    background-color: rgba(33, 40, 50, 0.03);
+    border-bottom: 1px solid rgba(33, 40, 50, 0.125);
+}
+.nav-borders .nav-link.active {
+    color: #0061f2;
+    border-bottom-color: #0061f2;
+}
+.nav-borders .nav-link {
+    color: #69707a;
+    border-bottom-width: 0.125rem;
+    border-bottom-style: solid;
+    border-bottom-color: transparent;
+}
+
+.table > :not(caption) > * > *, .dataTable-table > :not(caption) > * > * {
+    padding: 0.75rem 0.75rem;
+    background-color: var(--bs-table-bg);
+    border-bottom-width: 1px;
+    box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
+}
+
+.border-start-primary {
+    border-left-color: #0061f2 !important;
+}
+.border-start-secondary {
+    border-left-color: #6900c7 !important;
+}
+.border-start-success {
+    border-left-color: #00ac69 !important;
+}
+.border-start-lg {
+    border-left-width: 0.25rem !important;
+}
+.h-100 {
+    height: 100% !important;
+}
+
+</style>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA=" crossorigin="anonymous" />
+
+<div class="container-xl px-4 mt-4">
+    <nav class="nav nav-borders">
+        <a class="nav-link ms-0" href="{% url 'accountsettings' %}">Profile</a>
+        <a class="nav-link active" href="">Billing</a>
+        <a class="nav-link" href="{% url 'securitysettings' %}">Security</a>
+        {% if user.type == 1 %}
+		    <a class="nav-link" href="{% url 'myproducts' %}">My Products</a>
+		{% elif user.type == 0 %}
+		    <a class="nav-link" href="{% url 'mywishlist' %}">My Wishlist</a>
+		{% endif %}
+    </nav>
+    <hr class="mt-0 mb-4">
+    <div class="card card-header-actions mb-4">
+        <div class="card-header">
+            Address
+            {% if not addresses %}
+            	<button onclick="location.href='{% url 'addaddress' %}';" class="btn btn-sm btn-primary" type="button">Add Address</button>
+            {% endif %}
+        </div>
+        {% for address in addresses %}
+        	<div class="card-body px-0">
+            	<div class="d-flex align-items-center justify-content-between px-4">
+            	    <div class="d-flex align-items-center">
+            	        <i class="fab fa-cc-amex fa-2x cc-color-amex"></i>
+            	        <div class="ms-4">
+            	            <div class="small">{{ address.address }}</div>
+            	            <div class="text-xs text-muted">{{ address.city }}</div>
+            	        </div>
+            	    </div>
+            	    <div class="ms-4 small">
+            	        <a href="{% url 'editaddress' address.pk %}">Edit</a>
+            	    </div>
+            	</div>
+        	</div>
+        {% endfor %}
+    </div>
+    <div class="card card-header-actions mb-4">
+        <div class="card-header">
+            Payment Methods
+            <button onclick="location.href='{% url 'addpayment' %}';" class="btn btn-sm btn-primary" type="button">Add Payment Method</button>
+        </div>
+        <div class="card-body px-0">
+            {% for payment in payments %}
+            	{% if payment.type == 0 %}
+            		<div class="d-flex align-items-center justify-content-between px-4">
+                		<div class="d-flex align-items-center">
+                    		<i class="fab fa fa-credit-card fa-2x cc-color-credit-card"></i>
+                    		<div class="ms-4">
+                        		<div class="small">{{ payment.cardnumber }}</div>
+                        		<div class="text-xs text-muted">Expires {{ payment.cardexp }}</div>
+                    		</div>
+                		</div>
+                		<div class="ms-4 small">
+                    		<a href="{% url 'editpayment' payment.pk %}">Edit</a>
+                		</div>
+            		</div>
+            		<hr>
+            	{% else %}
+            		<div class="d-flex align-items-center justify-content-between px-4">
+                		<div class="d-flex align-items-center">
+                    		<i class="fab fa-cc-paypal fa-2x cc-color-paypal"></i>
+                    		<div class="ms-4">
+                        		<div class="small">{{ payment.paypalemail }}</div>
+                    		</div>
+                		</div>
+                		<div class="ms-4 small">
+                    		<a href="{% url 'editpayment' payment.pk %}">Edit</a>
+                		</div>
+            		</div>
+            		<hr>
+            	{% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    <div class="card mb-4">
+        <div class="card-header">Billing History</div>
+        <div class="card-body p-0">
+            <div class="table-responsive table-billing-history">
+                <table class="table mb-0">
+                    <thead>
+                        <tr>
+                            <th class="border-gray-200" scope="col">Transaction ID</th>
+                            <th class="border-gray-200" scope="col">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for history in billinghistory %}
+                        	<tr>
+                        	    <td>#{{ history.pk }}</td>
+                        	    <td><span class="badge bg-success">Paid</span></td>
+                        	</tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

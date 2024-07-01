@@ -1,0 +1,359 @@
+{% extends "base.html" %}
+{% block title %}Django e-shop{% endblock title %}
+{% load index from tags %}
+{% load pagecalc from tags %}
+{% load pagecalc2 from tags %}
+{% load mathfilters %}
+{% block content %}
+
+<style>
+
+.shop__thumb {
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  padding: 20px;
+  margin-bottom: 20px;
+  background-color: white;
+  text-align: center;
+  -webkit-transition: border-color 0.1s, -webkit-box-shadow 0.1s;
+       -o-transition: border-color 0.1s, box-shadow 0.1s;
+          transition: border-color 0.1s, box-shadow 0.1s;
+}
+.shop__thumb > a {
+  color: #333333;
+}
+.shop__thumb > a:hover {
+  text-decoration: none;
+}
+.shop-thumb__title {
+  font-weight: 600;
+}
+.shop-thumb__price {
+  color: #777777;
+}
+.shop-thumb-price_old {
+  text-decoration: line-through;
+}
+.shop-thumb-price_new {
+  color: red;
+}
+.shop-filter__price {
+  padding: 15px;
+}
+.shop-filter__price [class*='col-'] {
+  padding: 2px;
+}
+.shop-filter__color {
+  display: inline-block;
+  margin: 0 2px 2px 0;
+}
+.shop-filter__color input[type="text"] {
+  display: none;
+}
+.shop-filter__color label {
+  width: 30px;
+  height: 30px;
+  background: transparent;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+  cursor: pointer;
+}
+.shop__sorting {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 40px;
+  margin-top: -20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  text-align: right;
+}
+.shop__sorting > li {
+  display: inline-block;
+}
+.shop__sorting > li > a {
+  display: block;
+  padding: 20px 10px;
+  margin-bottom: -1px;
+  border-bottom: 2px solid transparent;
+  color: #757575;
+  -webkit-transition: all .05s linear;
+       -o-transition: all .05s linear;
+          transition: all .05s linear;
+}
+.shop__sorting > li > a:hover,
+.shop__sorting > li > a:focus {
+  color: #333333;
+  text-decoration: none;
+}
+.shop__sorting > li.active > a {
+  color: #ed3e49;
+  border-bottom-color: #ed3e49;
+}
+.checkbox input[type="checkbox"] {
+  display: none;
+}
+.checkbox label:before {
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 15px;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  background-color: #eee;
+  text-align: center;
+  font-family: "FontAwesome";
+}
+.checkbox input[type="checkbox"]:checked + label::before {
+  content: "\f00c";
+}
+.radio input[type="radio"] {
+  display: none;
+}
+.radio label:before {
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 15px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 10px solid #eee;
+  background-color: #333333;
+}
+.radio input[type="radio"]:checked + label:before {
+  border-width: 7px;
+}
+.card-img-top {
+  height: 300px;
+  object-fit: contain;
+}
+.btn-link.btn-anchor {
+    outline: none !important;
+    border: 0;
+    vertical-align: baseline;
+    color: #787878;
+}
+.btn-anchore {
+    outline: none !important;
+    border: 0;
+    vertical-align: baseline;
+}
+.pad {
+    padding-top: 10;
+    padding-bottom: 20;
+}
+</style>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function ()
+{
+  document.getElementById("id_prices_0").addEventListener('click', function()
+  {
+    $("#shop-filter-price_from").attr("disabled","True");
+    $("#shop-filter-price_to").attr("disabled","True");
+    $("#shop-filter-price_go").attr("disabled","True");
+  });
+  document.getElementById("id_prices_1").addEventListener('click', function()
+  {
+    $("#shop-filter-price_from").attr("disabled","True");
+    $("#shop-filter-price_to").attr("disabled","True");
+    $("#shop-filter-price_go").attr("disabled","True");
+  });
+  document.getElementById("id_prices_2").addEventListener('click', function()
+  {
+    $("#shop-filter-price_from").attr("disabled","True");
+    $("#shop-filter-price_to").attr("disabled","True");
+    $("#shop-filter-price_go").attr("disabled","True");
+  });
+  document.getElementById("id_prices_3").addEventListener('click', function()
+  {
+    $("#shop-filter-price_from").attr("disabled","True");
+    $("#shop-filter-price_to").attr("disabled","True");
+    $("#shop-filter-price_go").attr("disabled","True");
+  });
+  document.getElementById("id_prices_4").addEventListener('click', function()
+  {
+    $("#shop-filter-price_from").removeAttr("disabled");
+    $("#shop-filter-price_to").removeAttr("disabled");
+    $("#shop-filter-price_go").removeAttr("disabled");
+  });
+});
+</script>
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<br>
+<form class="shop__filter">
+<div class="container">
+  <div class="row">
+    <div class="col-sm-4 col-md-3">
+      <br><br><br>
+      <h3 class="headline">
+        <span>Categories</span>
+      </h3>
+      <div class="btn-group w-100">
+        {{ form.categorys }}
+	  </div>
+      <h3 class="headline">
+        <span>Price</span>
+      </h3>
+      {{ form.prices }}
+      <div class="form-group shop-filter__price" style="padding-left: 10px;">
+        <div class="row">
+          <div class="col-xs-4">
+            <label for="shop-filter-price_from" class="sr-only"></label>
+            {{ form.frominput }}
+          </div>
+          <div class="col-xs-4">
+            <label for="shop-filter-price_to" class="sr-only"></label>
+            {{ form.toinput }}
+          </div>
+        </div>
+      </div>
+      <div>
+          <button type="submit" class="btn btn-primary w-100">Apply Filters</button>
+      </div>
+    </div>
+    <div class="col-sm-8 col-md-9">
+      <ul class="shop__sorting">
+        <li><button class="btn btn-link btn-anchore pad" name="order" type="submit" value="popular">Best Match</button></li>
+        <li><button class="btn btn-link btn-anchor pad" name="order" type="submit" value="pricel">Price (low)</button></li>
+        <li><button class="btn btn-link btn-anchor pad" name="order" type="submit" value="priceh">Price (high)</button></li>
+      </ul>
+      <div class="row">
+        {% for product in object_list %}
+          <div class="col-sm-6 col-md-4">
+            <div class="shop__thumb">
+              <a href="{% url 'productdetails' product.pk %}">
+                <div class="shop-thumb__img">
+                  {% if not product.image %}
+                    <img src="{{ '/media/not.png' }}" class="img-fluid card-img-top" alt="...">  
+                  {% else %}
+                    {% if not product.image2 %}
+                      <img src="{{ product.image.url }}" class="img-fluid card-img-top" alt="...">
+                    {% else %}
+                      <img src="{{ product.image.url }}" class="img-fluid card-img-top" alt="..." onmouseover="this.src='{{ product.image2.url }}'" onmouseout="this.src='{{ product.image.url }}'">
+                    {% endif %}
+                  {% endif %}
+                </div>
+                <h5 class="shop-thumb__title">{{ product.name }}</h5>
+                <div class="shop-thumb__price">${{ product.price|floatformat:2 }}</div>
+              </a>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+</form>
+<br><br><br>
+<div class="container-fluid w-100">
+	<div class="d-flex justify-content-center position-fixed fixed-bottom">
+		<nav aria-label="...">
+			<ul class="pagination">
+    			<li class="page-item">
+    				<form>
+    				    {% for key in keys %}
+        				    {% if key != "page" %}
+        	    				<input type="hidden" value="{{ values|index:forloop.counter0 }}" name="{{ key }}">
+        	    			{% endif %}
+        				{% endfor %}
+    				    {% if object_list.has_previous %}
+	   						<button name="page" type="submit "class="page-link" value="{{ object_list.previous_page_number }}">Previous</button>
+	    				{% else %}
+	    				    <button name="page" type="submit "class="page-link disabled">Previous</button>
+	    				{% endif %}
+    				</form>
+    			</li>
+    			{% if object_list.paginator.num_pages < 10 %}
+    				{% for i in "x"|rjust:object_list.paginator.num_pages %}
+    					<li class="page-item">
+    					    <form>
+    					        {% for key in keys %}
+        				            {% if key != "page" %}
+        	    						<input type="hidden" value="{{ values|index:forloop.counter0 }}" name="{{ key }}">
+        	    					{% endif %}
+        						{% endfor %}
+    					   	    {% if forloop.counter == object_list.number %}
+	    							<button name="page" type="submit "class="page-link active" value="{{ forloop.counter }}">{{ forloop.counter }}</button>
+	    						{% else %}
+	    							<button name="page" type="submit "class="page-link" value="{{ forloop.counter }}">{{ forloop.counter }}</button>
+	    						{% endif %}
+    						</form>
+    					</li>
+    				{% endfor %}
+    			{% else %}
+    				{% if object_list.number > 4 %}
+    				    {% if not object_list.paginator.num_pages|sub:object_list.number > 4 %}
+	    				    {% for i in "x"|rjust:"9" %}
+    							<li class="page-item">
+    						    	<form>
+    						    	    {% for key in keys %}
+				        				    {% if key != "page" %}
+        	    								<input type="hidden" value="{{ values|index:forloop.counter0 }}" name="{{ key }}">
+				        	    			{% endif %}
+				        				{% endfor %}
+    						    	    {% pagecalc object_list.number object_list.paginator.num_pages forloop.counter as action %}
+    						   		    {% if action == object_list.number %}
+		    								<button name="page" type="submit "class="page-link active" value="{{ action }}">{{ action }}</button>
+		    							{% else %}
+		    								<button name="page" type="submit "class="page-link" value="{{ action }}">{{ action }}</button>
+		    							{% endif %}
+    								</form>
+    							</li>
+    						{% endfor %}
+    					{% else %}
+    						{% for i in "x"|rjust:"9" %}
+    							<li class="page-item">
+    					    		<form>
+    					    			{% for key in keys %}
+        				    				{% if key != "page" %}
+        	    								<input type="hidden" value="{{ values|index:forloop.counter0 }}" name="{{ key }}">
+        	    							{% endif %}
+				        				{% endfor %}
+    					    		    {% pagecalc2 object_list.number forloop.counter as action %}
+    					    		    {% if action == object_list.number %}
+		   									<button name="page" type="submit "class="page-link active" value="{{ action }}">{{ action }}</button>
+		   								{% else %}
+		   									<button name="page" type="submit "class="page-link" value="{{ action }}">{{ action }}</button>
+		   								{% endif %}
+    								</form>
+   								</li>
+    						{% endfor %}
+						{% endif %}
+    				{% else %}
+    			        {% for i in "x"|rjust:"9" %}
+    						<li class="page-item">
+    				    		<form>
+    				    			{% for key in keys %}
+        				    			{% if key != "page" %}
+        	    							<input type="hidden" value="{{ values|index:forloop.counter0 }}" name="{{ key }}">
+        	    						{% endif %}
+			        				{% endfor %}
+    				    		    {% if forloop.counter == object_list.number %}
+	    								<button name="page" type="submit "class="page-link active" value="{{ forloop.counter }}">{{ forloop.counter }}</button>
+	    							{% else %}
+	    								<button name="page" type="submit "class="page-link" value="{{ forloop.counter }}">{{ forloop.counter }}</button>
+	    							{% endif %}
+    							</form>
+    						</li>
+    					{% endfor %}
+    			    {% endif %}
+    			{% endif %}
+    			<li class="page-item">
+   				    <form>
+   				        {% for key in keys %}
+   				            {% if key != "page" %}
+        	    				<input type="hidden" value="{{ values|index:forloop.counter0 }}" name="{{ key }}">
+        	    			{% endif %}
+        				{% endfor %}
+   				        {% if object_list.has_next %}
+    						<button name="page" type="submit "class="page-link" value="{{ object_list.next_page_number }}">Next</button>
+    					{% else %}
+    					    <button name="page" type="submit "class="page-link disabled">Next</button>
+    					{% endif %}
+    				</form>
+    			</li>
+  			</ul>
+		</nav>
+	</div>
+</div>
+{% endblock content %}

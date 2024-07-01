@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% block title %}Add Address{% endblock title %}
+
+{% block content %}
+<style>
+body{
+    background:#eee;
+}
+.card {
+    box-shadow: 0 20px 27px 0 rgb(0 0 0 / 5%);
+}
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 0 solid rgba(0,0,0,.125);
+    border-radius: 1rem;
+}
+.card-body {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: 1.5rem 1.5rem;
+}
+.card-radio {
+    background-color: #fff;
+    border: 2px solid #eff0f2;
+    border-radius: .75rem;
+    padding: .5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: block
+}
+.card-radio:hover {
+    cursor: pointer
+}
+.card-radio-label {
+    display: block
+}
+.card-radio-input {
+    display: none
+}
+.card-radio-input:checked~.card-radio {
+    border-color: #3b76e1!important
+}
+</style>
+<form method="post">{% csrf_token %}
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-lg-center py-3 flex-column flex-lg-row">
+    	<h2></h2>
+    	<div class="hstack gap-3">
+      		<button type="button" onclick="location.href='{% url 'billsettings' %}'" class="btn btn-light btn-sm btn-icon-text"><i class="bi bi-x"></i> <span class="text">Cancel</span></button>
+      		<button type="submit" class="btn btn-primary btn-sm btn-icon-text"><i class="bi bi-save"></i> <span class="text">Save</span></button>
+        </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-9 w-100">
+        <br>
+        <div class="col-xl-8 w-100">
+        	<div class="card mb-4">
+            	<div class="card-body">
+                	<div class="feed-item-list">
+                        <div>
+                            <div class="mb-3">
+                                <div>
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <div class="mb-3">
+                                                <label class="form-label" for="billing-name">Name</label>
+                                                {{ form.name }}
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="mb-3">
+                                                <label class="form-label" for="billing-email-address">Email Address</label>
+                                                {{ form.email }}
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="mb-3">
+                                                <label class="form-label" for="billing-phone">Phone</label>
+                                                {{ form.phone }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label" for="billing-address">Address</label>
+                                        {{ form.address }}
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <div class="mb-4 mb-lg-0">
+                                                <label class="form-label">Country</label>
+                                                {{ form.country }}
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="mb-4 mb-lg-0">
+                                                <label class="form-label" for="billing-city">City</label>
+                                                {{ form.city }}
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="mb-0">
+                                                <label class="form-label" for="zip-code">Zip / Postal code</label>
+                                                {{ form.zipcode }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>        
+                </div>
+            </div>
+        </div>
+        <br>
+      </div>
+    </div>
+  </div>
+</form>
+{% endblock content %}

@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block title %}Add Product{% endblock title %}
+
+{% block content %}
+
+<style>
+
+body{
+    background:#eee;
+}
+
+.card {
+    box-shadow: 0 20px 27px 0 rgb(0 0 0 / 5%);
+}
+
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 0 solid rgba(0,0,0,.125);
+    border-radius: 1rem;
+}
+
+.card-body {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: 1.5rem 1.5rem;
+}
+
+</style>
+<div class="container-fluid">
+<div class="container">
+  <div class="d-flex justify-content-between align-items-lg-center py-3 flex-column flex-lg-row">
+    <h2 class="h5 mb-3 mb-lg-0"><a href="../../pages/admin/customers.html" class="text-muted"><i class="bi bi-arrow-left-square me-2"></i></a> Add Product</h2>
+    <div class="hstack gap-3">
+      <button onclick="location.href='{% url 'home' %}'" class="btn btn-light btn-sm btn-icon-text"><i class="bi bi-x"></i> <span class="text">Cancel</span></button>
+      <button type="submit" form="myform" class="btn btn-primary btn-sm btn-icon-text"><i class="bi bi-save"></i> <span class="text">Save</span></button>
+    </div>
+  </div>
+  <form id="myform" method="post" enctype="multipart/form-data">{% csrf_token %}
+  <div class="row">
+    <div class="col-lg-8">
+      <div class="card mb-4">
+        <div class="card-body">
+          <h3 class="h6 mb-4">Basic information</h3>
+          <div class="row">
+            <div class="col-lg-6 w-100">
+              <div class="mb-3">
+                <label class="form-label">Title Of Product</label>
+                {{ form.name }}
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label class="form-label">Price</label>
+                {{ form.price }}
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label class="form-label">Currency</label>
+                <br>
+                <select name="currency" id="currencyList" class="form-select">
+    				<option value="USD" selected="selected" label="US dollar">USD</option>
+				</select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card mb-4">
+        <div class="card-body">
+          <h3 class="h6 mb-4">Additional information</h3>
+          <div class="mb-3">
+            <label class="form-label">Description</label>
+            {{ form.description }}
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Specifications</label>
+            {{ form.specifications }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="card mb-4">
+        <div class="card-body">
+          <h3 class="h6">Category</h3>
+          {{ form.categorys }}
+        </div>
+      </div>
+      <div class="card mb-4">
+        <div class="card-body">
+          <h3 class="h6">Delivery Time</h3>
+          {{ form.deliverytime }}
+        </div>
+      </div>
+      <div class="card mb-4">
+        <div class="card-body">
+          <h3 class="h6">Images</h3>
+          {{ form.image }}
+          {{ form.image2 }}
+          {{ form.image3 }}
+        </div>
+      </div>
+    </div>
+  </div>
+  </form>
+</div>
+
+  </div>
+
+{% endblock content %}

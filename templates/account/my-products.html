@@ -1,0 +1,200 @@
+{% extends "base.html" %}
+{% load index from tags %}
+{% load pagecalc from tags %}
+{% load pagecalc2 from tags %}
+{% load mathfilters %}
+{% block title %}My Products{% endblock title %}
+
+{% block content %}
+
+<style>
+
+.nav-borders .nav-link.active {
+    color: #0061f2;
+    border-bottom-color: #0061f2;
+}
+.nav-borders .nav-link {
+    color: #69707a;
+    border-bottom-width: 0.125rem;
+    border-bottom-style: solid;
+    border-bottom-color: transparent;
+}
+.shop__thumb {
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  padding: 20px;
+  margin-bottom: 20px;
+  background-color: white;
+  text-align: center;
+  -webkit-transition: border-color 0.1s, -webkit-box-shadow 0.1s;
+       -o-transition: border-color 0.1s, box-shadow 0.1s;
+          transition: border-color 0.1s, box-shadow 0.1s;
+}
+.shop__thumb > a {
+  color: #333333;
+}
+.shop__thumb > a:hover {
+  text-decoration: none;
+}
+.shop-thumb__title {
+  font-weight: 600;
+}
+.shop-thumb__price {
+  color: #777777;
+}
+.card-img-top {
+  height: 300px;
+  object-fit: contain;
+}
+</style>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA=" crossorigin="anonymous" />
+
+<div class="container-xl px-4 mt-4">
+    <nav class="nav nav-borders">
+        <a class="nav-link ms-0" href="{% url 'accountsettings' %}">Profile</a>
+        {% if user.type == 1 %}
+        	<a class="nav-link" href="{% url 'billingsettings' %}">Billing</a>
+        {% elif user.type == 0 %}
+        	<a class="nav-link" href="{% url 'billsettings' %}">Billing</a>
+        {% endif %}
+        <a class="nav-link" href="{% url 'securitysettings' %}">Security</a>
+        <a class="nav-link active" href="">My Products</a>
+    </nav>
+    <hr class="mt-0 mb-4">
+    <div class="row">
+        {% for product in object_list %}
+          <div class="col-sm-6 col-md-4">
+            <div class="shop__thumb">
+              <a href="{% url 'productdetails' product.pk %}">
+                <div class="shop-thumb__img">
+                  {% if not product.image %}
+                    <img src="{{ '/media/not.png' }}" class="img-fluid card-img-top" alt="...">  
+                  {% else %}
+                    {% if not product.image2 %}
+                      <img src="{{ product.image.url }}" class="img-fluid card-img-top" alt="...">
+                    {% else %}
+                      <img src="{{ product.image.url }}" class="img-fluid card-img-top" alt="..." onmouseover="this.src='{{ product.image2.url }}'" onmouseout="this.src='{{ product.image.url }}'">
+                    {% endif %}
+                  {% endif %}
+                </div>
+                <h5 class="shop-thumb__title">{{ product.name }}</h5>
+                <div class="shop-thumb__price">${{ product.price|floatformat:2 }}</div>
+              </a>
+            </div>
+          </div>
+        {% endfor %}
+    </div>
+</div>
+<br><br><br>
+<div class="container-fluid w-100">
+	<div class="d-flex justify-content-center position-fixed fixed-bottom">
+		<nav aria-label="...">
+			<ul class="pagination">
+    			<li class="page-item">
+    				<form>
+    				    {% for key in keys %}
+        				    {% if key != "page" %}
+        	    				<input type="hidden" value="{{ values|index:forloop.counter0 }}" name="{{ key }}">
+        	    			{% endif %}
+        				{% endfor %}
+    				    {% if object_list.has_previous %}
+	   						<button name="page" type="submit "class="page-link" value="{{ object_list.previous_page_number }}">Previous</button>
+	    				{% else %}
+	    				    <button name="page" type="submit "class="page-link disabled">Previous</button>
+	    				{% endif %}
+    				</form>
+    			</li>
+    			{% if object_list.paginator.num_pages < 10 %}
+    				{% for i in "x"|rjust:object_list.paginator.num_pages %}
+    					<li class="page-item">
+    					    <form>
+    					        {% for key in keys %}
+        				            {% if key != "page" %}
+        	    						<input type="hidden" value="{{ values|index:forloop.counter0 }}" name="{{ key }}">
+        	    					{% endif %}
+        						{% endfor %}
+    					   	    {% if forloop.counter == object_list.number %}
+	    							<button name="page" type="submit "class="page-link active" value="{{ forloop.counter }}">{{ forloop.counter }}</button>
+	    						{% else %}
+	    							<button name="page" type="submit "class="page-link" value="{{ forloop.counter }}">{{ forloop.counter }}</button>
+	    						{% endif %}
+    						</form>
+    					</li>
+    				{% endfor %}
+    			{% else %}
+    				{% if object_list.number > 4 %}
+    				    {% if not object_list.paginator.num_pages|sub:object_list.number > 4 %}
+	    				    {% for i in "x"|rjust:"9" %}
+    							<li class="page-item">
+    						    	<form>
+    						    	    {% for key in keys %}
+				        				    {% if key != "page" %}
+        	    								<input type="hidden" value="{{ values|index:forloop.counter0 }}" name="{{ key }}">
+				        	    			{% endif %}
+				        				{% endfor %}
+    						    	    {% pagecalc object_list.number object_list.paginator.num_pages forloop.counter as action %}
+    						   		    {% if action == object_list.number %}
+		    								<button name="page" type="submit "class="page-link active" value="{{ action }}">{{ action }}</button>
+		    							{% else %}
+		    								<button name="page" type="submit "class="page-link" value="{{ action }}">{{ action }}</button>
+		    							{% endif %}
+    								</form>
+    							</li>
+    						{% endfor %}
+    					{% else %}
+    						{% for i in "x"|rjust:"9" %}
+    							<li class="page-item">
+    					    		<form>
+    					    			{% for key in keys %}
+        				    				{% if key != "page" %}
+        	    								<input type="hidden" value="{{ values|index:forloop.counter0 }}" name="{{ key }}">
+        	    							{% endif %}
+				        				{% endfor %}
+    					    		    {% pagecalc2 object_list.number forloop.counter as action %}
+    					    		    {% if action == object_list.number %}
+		   									<button name="page" type="submit "class="page-link active" value="{{ action }}">{{ action }}</button>
+		   								{% else %}
+		   									<button name="page" type="submit "class="page-link" value="{{ action }}">{{ action }}</button>
+		   								{% endif %}
+    								</form>
+   								</li>
+    						{% endfor %}
+						{% endif %}
+    				{% else %}
+    			        {% for i in "x"|rjust:"9" %}
+    						<li class="page-item">
+    				    		<form>
+    				    			{% for key in keys %}
+        				    			{% if key != "page" %}
+        	    							<input type="hidden" value="{{ values|index:forloop.counter0 }}" name="{{ key }}">
+        	    						{% endif %}
+			        				{% endfor %}
+    				    		    {% if forloop.counter == object_list.number %}
+	    								<button name="page" type="submit "class="page-link active" value="{{ forloop.counter }}">{{ forloop.counter }}</button>
+	    							{% else %}
+	    								<button name="page" type="submit "class="page-link" value="{{ forloop.counter }}">{{ forloop.counter }}</button>
+	    							{% endif %}
+    							</form>
+    						</li>
+    					{% endfor %}
+    			    {% endif %}
+    			{% endif %}
+    			<li class="page-item">
+   				    <form>
+   				        {% for key in keys %}
+   				            {% if key != "page" %}
+        	    				<input type="hidden" value="{{ values|index:forloop.counter0 }}" name="{{ key }}">
+        	    			{% endif %}
+        				{% endfor %}
+   				        {% if object_list.has_next %}
+    						<button name="page" type="submit "class="page-link" value="{{ object_list.next_page_number }}">Next</button>
+    					{% else %}
+    					    <button name="page" type="submit "class="page-link disabled">Next</button>
+    					{% endif %}
+    				</form>
+    			</li>
+  			</ul>
+		</nav>
+	</div>
+</div>
+{% endblock content %}

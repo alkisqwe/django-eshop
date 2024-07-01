@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% load former from tags %}
+{% block title %}Profile Settings{% endblock title %}
+
+{% block content %}
+
+<style>
+
+.card {
+    box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
+}
+.card-header {
+    padding: 1rem 1.35rem;
+    margin-bottom: 0;
+    background-color: rgba(33, 40, 50, 0.03);
+    border-bottom: 1px solid rgba(33, 40, 50, 0.125);
+}
+
+.nav-borders .nav-link.active {
+    color: #0061f2;
+    border-bottom-color: #0061f2;
+}
+.nav-borders .nav-link {
+    color: #69707a;
+    border-bottom-width: 0.125rem;
+    border-bottom-style: solid;
+    border-bottom-color: transparent;
+}
+
+</style>
+
+<div class="container-xl px-4 mt-4">
+    <nav class="nav nav-borders">
+        <a class="nav-link active" aria-current="page">Profile</a>
+        {% if user.type == 1 %}
+        	<a class="nav-link" href="{% url 'billingsettings' %}">Billing</a>
+        {% elif user.type == 0 %}
+        	<a class="nav-link" href="{% url 'billsettings' %}">Billing</a>
+        {% endif %}
+        <a class="nav-link" href="{% url 'securitysettings' %}">Security</a>
+	    {% if user.type == 1 %}
+		    <a class="nav-link" href="{% url 'myproducts' %}">My Products</a>
+		{% elif user.type == 0 %}
+		    <a class="nav-link" href="{% url 'mywishlist' %}">My Wishlist</a>
+		{% endif %}
+    </nav>
+    <hr class="mt-0 mb-4">
+        <form id="useremail" name="useremail" method="post" enctype="multipart/form-data">{% csrf_token %}
+            <div class="row">
+            {% if user.is_authenticated %}
+                <div class="col-xl-4">
+                    <div class="card mb-4 mb-xl-0 h-100">
+                        <div class="card-header">Profile Picture</div>
+                        <div class="card-body text-center">
+                            <img class="img-account-profile rounded-circle mb-2" src="{{ user.profileimage.url }}" alt="" width="315" height="315">
+                            <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
+                            {{ form.profileimage }}
+                            <label class="btn btn-primary" type="button" name="img" for="img">Upload new image</label>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            <div class="col-xl-8{% if not user.is_authenticated %} w-100 {% endif %}">
+                <div class="card mb-4 h-100">
+                    <div class="card-header">Account Details</div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="small mb-1" for="inputUsername">Username (how your name will appear to other users on the site)</label><br>
+                            {{ form.username|former:user.username }}
+                        </div>
+                        <div class="mb-3">
+                            <label class="small mb-1" for="inputEmailAddress">Email address</label>
+                            {{ form.email|former:user.email }}
+                        </div>
+                        <button class="btn btn-primary" type="submit">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock content %}

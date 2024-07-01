@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block title %}Security Settings{% endblock title %}
+
+{% block content %}
+
+<style>
+
+.card {
+    box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
+}
+.card-header {
+    padding: 1rem 1.35rem;
+    margin-bottom: 0;
+    background-color: rgba(33, 40, 50, 0.03);
+    border-bottom: 1px solid rgba(33, 40, 50, 0.125);
+}
+.nav-borders .nav-link.active {
+    color: #0061f2;
+    border-bottom-color: #0061f2;
+}
+.nav-borders .nav-link {
+    color: #69707a;
+    border-bottom-width: 0.125rem;
+    border-bottom-style: solid;
+    border-bottom-color: transparent;
+}
+
+.btn-danger-soft {
+    color: #000;
+    background-color: #f1e0e3;
+    border-color: #f1e0e3;
+}
+
+</style>
+	<div class="container-xl px-4 mt-4">
+        <nav class="nav nav-borders">
+	        <a class="nav-link  ms-0" href="{% url 'accountsettings' %}">Profile</a>
+	        {% if user.type == 1 %}
+	        	<a class="nav-link" href="{% url 'billingsettings' %}">Billing</a>
+	        {% elif user.type == 0 %}
+	        	<a class="nav-link" href="{% url 'billsettings' %}">Billing</a>
+	        {% endif %}
+    	    <a class="nav-link active" href="">Security</a>
+		    {% if user.type == 1 %}
+		    	<a class="nav-link" href="{% url 'myproducts' %}">My Products</a>
+			{% elif user.type == 0 %}
+		    	<a class="nav-link" href="{% url 'mywishlist' %}">My Wishlist</a>
+			{% endif %}
+        </nav>
+        <hr class="mt-0 mb-4">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="card mb-4">
+                    <div class="card-header">Change Password</div>
+                    <div class="card-body">
+                        <form method="post">{% csrf_token %}
+                            <div class="mb-3">
+                                <label class="small mb-1" for="currentPassword">Current Password</label>
+                                <input class="form-control" id="currentPassword" name="currentPassword" type="password" placeholder="Enter current password">
+                            </div>
+                            <div class="mb-3">
+                                <label class="small mb-1" for="newPassword">New Password</label>
+                                <input class="form-control" id="newPassword" name="newPassword" type="password" placeholder="Enter new password">
+                            </div>
+                            <div class="mb-3">
+                                <label class="small mb-1" for="confirmPassword">Confirm Password</label>
+                                <input class="form-control" id="confirmPassword" name="confirmPassword" type="password" placeholder="Confirm new password">
+                            </div>
+                            <button class="btn btn-primary" type="submit">Save</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="card mb-4">
+                    <div class="card-header">Security Preferences</div>
+                    <div class="card-body">
+                        <h5 class="mb-1">Account Type</h5>
+                        <p class="small text-muted">By setting your account to personal, your profile products will not be visible to users</p>
+                        <form method="post">{% csrf_token %}
+                            <div class="form-check">
+                                <input value="1" class="form-check-input" id="radioPrivacy1" type="radio" name="radioPrivacy" {% if type == 1 %} checked="" {% endif %}>
+                                <label class="form-check-label" for="radioPrivacy1">Business Account</label>
+                            </div>
+                            <div class="form-check">
+                                <input value="0" class="form-check-input" id="radioPrivacy2" type="radio" name="radioPrivacy" {% if type == 0 %} checked="" {% endif %}>
+                                <label class="form-check-label" for="radioPrivacy2">Personal Account</label>
+                            </div>
+                            <br>
+                            <button class="btn btn-primary" type="submit">Save</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card mb-4">
+                    <div class="card-header">Delete Account</div>
+                    <div class="card-body">
+                        <p>Deleting your account is a permanent action and cannot be undone. If you are sure you want to delete your account, select the button below.</p>
+                        <form method="post">{% csrf_token %}
+                        	<button class="btn btn-danger-soft text-danger" type="submit" id="deleter" name="deleter" value="deleter">I understand, delete my account</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

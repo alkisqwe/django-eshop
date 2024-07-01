@@ -1,0 +1,183 @@
+{% extends "base.html" %}
+
+{% block title %}Plan Upgrade{% endblock title %}
+
+{% block content %}
+
+<style>
+
+body{
+    background-color:#eee;    
+}
+.content{
+    margin-top:40px;    
+}
+.plan-one {
+    margin: 0 0 20px 0;
+    width: 100%;
+    position: relative;
+}
+
+.plan-card {
+    background: #fff;
+    margin-bottom: 30px;
+    transition: .5s;
+    border: 0;
+    border-radius: .55rem;
+    position: relative;
+    width: 100%;
+    box-shadow: 0 1px 2px 0 rgba(0,0,0,0.5);
+}
+
+.plan-one .pricing-header {
+    padding: 0;
+    margin-bottom: 0;
+    text-align: center;
+}
+
+.plan-one .pricing-header .plan-title {
+    -webkit-border-radius: 10px 10px 0px 0px;
+    -moz-border-radius: 10px 10px 0px 0px;
+    border-radius: 10px 10px 0px 0px;
+    font-size: 1.2rem;
+    color: #ffffff;
+    padding: 10px 0;
+    font-weight: 600;
+    background: #5a99ee;
+    margin: 0;
+}
+
+.plan-one .pricing-header .plan-cost {
+    color: #ffffff;
+    background: #71a7f0;
+    padding: 15px 0;
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+.plan-one .pricing-header .plan-save {
+    color: #ffffff;
+    background: #84b3f2;
+    padding: 10px 0;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.plan-one .pricing-header.green .plan-title {
+    background: #47BCC7;
+}
+
+.plan-one .pricing-header.green .plan-cost {
+    background: #5bc3cd;
+}
+
+.plan-one .pricing-header.green .plan-save {
+    background: #6ac9d2;
+}
+
+.plan-one .pricing-header.orange .plan-title {
+    background: #fc8165;
+}
+
+.plan-one .pricing-header.orange .plan-cost {
+    background: #fd967e;
+}
+
+.plan-one .pricing-header.orange .plan-save {
+    background: #fdaa97;
+}
+
+.plan-one .plan-features {
+    border: 1px solid #e6ecf3;
+    border-top: 0;
+    border-bottom: 0;
+    padding: 0;
+    margin: 0;
+    text-align: left;
+}
+
+.plan-one .plan-features li {
+    padding: 10px 15px 10px 40px;
+    margin: 5px 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    position: relative;
+    border-bottom: 1px solid #e6ecf3;
+    line-height: 100%;
+}
+
+.plan-one .plan-footer {
+    border: 1px solid #e6ecf3;
+    border-top: 0;
+    background: #ffffff;
+    -webkit-border-radius: 0 0 10px 10px;
+    -moz-border-radius: 0 0 10px 10px;
+    border-radius: 0 0 10px 10px;
+    text-align: center;
+    padding: 10px 0 30px 0;
+}
+
+@media (max-width: 767px) {
+    .plan-one .pricing-header {
+        text-align: center;
+    }
+    .plan-one .pricing-header i {
+        display: block;
+        float: none;
+        margin-bottom: 20px;
+    }
+}
+
+</style>
+
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<form method="post">{% csrf_token %}
+<div class="container content">
+<div class="row gutters">
+	<div class="col-lg-4 col-md-4 col-sm-12">
+		<div class="plan-card plan-one">
+			<div class="pricing-header">
+				<h4 class="plan-title">Free</h4>
+				<div class="plan-cost">$0.00</div>
+				<div class="plan-save">Save $29.00</div>
+			</div>
+			<ul class="plan-features">
+			</ul>
+			<div class="plan-footer">
+			    <button type="submit" name="plan-name" value="1" class="btn btn-info btn-lg btn-rounded">Select Plan</button>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-4 col-md-4 col-sm-12">
+		<div class="plan-card plan-one">
+			<div class="pricing-header orange">
+				<h4 class="plan-title">Freelancer</h4>
+				<div class="plan-cost">$29.00</div>
+				<div class="plan-save">Save $49.00</div>
+			</div>
+			<ul class="plan-features">
+			</ul>
+			<div class="plan-footer">
+			    <button type="submit" name="plan-name" value="2" class="btn btn-danger btn-lg btn-rounded">Select Plan</button>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-4 col-md-4 col-sm-12">
+		<div class="plan-card plan-one">
+			<div class="pricing-header green">
+				<h4 class="plan-title">Business</h4>
+				<div class="plan-cost">$49.00</div>
+				<div class="plan-save">Full Package</div>
+			</div>
+			<ul class="plan-features">
+			</ul>
+			<div class="plan-footer">
+			    <button type="submit" name="plan-name" value="3" class="btn btn-info btn-lg btn-rounded">Select Plan</button>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+</form>
+{% endblock content %}
