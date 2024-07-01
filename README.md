@@ -17,17 +17,6 @@ python3 manage.py collectstatic
 python3 manage.py runserver
 ```
 # Features
-1) Custom User Model
-2) Paginator & Search & Sort
-3) Custom Template Tags
-4) Utilization Of Class Based Views
-5) Purposely Minimalize Authentication System
-6) Ability To Create,Edit,View & Delete Notes
-7) Use Of Bootstrap & Crispy
-8) Use of 3rd Party Apps
-9) Preconfigured Static Files For Production Using Whitenoise
-10) Use of Custom Editor (Codemirror)
-
 1) Implemented Api
     1. Api Schemas And Dynamic Documentation
     2. Use Of Viewsets And Routers On Api
